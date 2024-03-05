@@ -32,8 +32,6 @@ services:
       - ./ndb2:/var/lib/mysql
       - ./cnf/my.cnf:/etc/my.cnf
       - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
-    ports:
-      - "2203:2202"
     depends_on:
       - mgmd
     networks:
@@ -76,7 +74,7 @@ services:
       - ./cnf/my.cnf:/etc/my.cnf
       - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     ports:
-      - "3306:3306"
+      - "3307:3306"
     depends_on:
       - mgmd
       - ndb1

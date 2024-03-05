@@ -2,8 +2,6 @@
 NoOfReplicas=2
 DataMemory=80M
 
-
-
 [ndb_mgmd]
 NodeId=1
 hostname=mgmd
@@ -19,11 +17,11 @@ NodeId=3
 hostname=ndb2
 datadir=/var/lib/mysql
 
-[sql1]
+[mysqld]
 NodeId=4
 hostname=sql1
 
-[sql2]
+[mysqld]
 NodeId=5
 hostname=sql2
 
