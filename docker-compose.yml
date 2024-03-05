@@ -1,0 +1,66 @@
+version: "3.8"
+services:
+  mgmd:
+    image: jerrylucid/mysql-cluster:arm64
+    command: ["ndb_mgmd"]
+    volumes:
+      - ./mgmd:/var/lib/mysql
+    ports:
+      - "1186:1186"
+    networks:
+      - cluster
+
+
+  ndb1:
+    image: jerrylucid/mysql-cluster:arm64
+    command: ["ndbd"]
+    volumes:
+      - ./ndb1:/var/lib/mysql
+    ports:
+      - "2202:2202"
+    depends_on:
+      - mgmd
+    networks:
+      - cluster
+  ndb2:
+    image: jerrylucid/mysql-cluster:arm64
+    command: ["ndbd"]
+    volumes:
+      - ./ndb2:/var/lib/mysql
+    ports:
+      - "2203:2202"
+    depends_on:
+      - mgmd
+    networks:
+      - cluster
+  mysqld:
+    image: jerrylucid/mysql-cluster:arm64
+    command: ["mysqld"]
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: mysql-user
+      MYSQL_PASSWORD: mysql-password
+    volumes:
+      - ./mysqld:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    depends_on:
+      - mgmd
+      - ndb1
+      - ndb2
+    networks:
+      - cluster
+
+networks:
+  cluster:
+    ipam:
+      config:
+        - subnet: 192.168.0.0/16
+          aux_addresses:
+            mgmd: 192.0.0.2
+            ndb1: 192.0.0.3
+            ndb2: 192.0.0.4
+            mysqld: 192.0.0.10
+
+    external: true
