@@ -6,6 +6,8 @@ services:
     command: ["ndb_mgmd"]    
     volumes:
       - ./mgmd:/var/lib/mysql
+      - ./cnf/my.cnf:/etc/my.cnf
+      - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     networks:
       - mysql-cluster
 
@@ -15,6 +17,8 @@ services:
     command: ["ndbd"]
     volumes:
       - ./ndb1:/var/lib/mysql
+      - ./cnf/my.cnf:/etc/my.cnf
+      - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     depends_on:
       - mgmd
     networks:
@@ -26,6 +30,8 @@ services:
     command: ["ndbd"]
     volumes:
       - ./ndb2:/var/lib/mysql
+      - ./cnf/my.cnf:/etc/my.cnf
+      - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     ports:
       - "2203:2202"
     depends_on:
@@ -44,7 +50,9 @@ services:
       MYSQL_USER: mysql-user
       MYSQL_PASSWORD: mysql-password
     volumes:
-      - ./mysqld:/var/lib/mysql
+      - ./sql1:/var/lib/mysql
+      - ./cnf/my.cnf:/etc/my.cnf
+      - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     ports:
       - "3306:3306"
     depends_on:
@@ -54,7 +62,27 @@ services:
     networks:
        - mysql-cluster
         
-
+  sql2:
+    hostname: sql2
+    image: jerrylucid/mysql-cluster:arm64
+    command: ["mysqld"]
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: mysql-user
+      MYSQL_PASSWORD: mysql-password
+    volumes:
+      - ./sql2:/var/lib/mysql
+      - ./cnf/my.cnf:/etc/my.cnf
+      - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+    ports:
+      - "3306:3306"
+    depends_on:
+      - mgmd
+      - ndb1
+      - ndb2
+    networks:
+       - mysql-cluster
 networks:
   mysql-cluster:
     driver: bridge
