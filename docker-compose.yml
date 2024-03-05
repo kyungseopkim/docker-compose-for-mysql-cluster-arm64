@@ -9,7 +9,7 @@ services:
       - ./cnf/my.cnf:/etc/my.cnf
       - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     networks:
-        mysql-cluster:
+        cluster:
           ipv4_address: 192.168.0.2
 
   ndb1:
@@ -21,7 +21,7 @@ services:
       - ./cnf/my.cnf:/etc/my.cnf
       - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     networks:
-       mysql-cluster:
+       cluster:
           ipv4_address: 192.168.0.3
 
 
@@ -34,7 +34,7 @@ services:
       - ./cnf/my.cnf:/etc/my.cnf
       - ./cnf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
     networks:
-       mysql-cluster:
+       cluster:
           ipv4_address: 192.168.0.4
 
         
@@ -56,7 +56,7 @@ services:
     depends_on:
       - mgmd
     networks:
-       mysql-cluster:
+       cluster:
           ipv4_address: 192.168.0.10
         
   sql2:
@@ -77,15 +77,14 @@ services:
     depends_on:
       - mgmd
     networks:
-       mysql-cluster:
+       cluster:
           ipv4_address: 192.168.0.11
 
 networks:
-  mysql-cluster:
-    driver: bridge
+  cluster:    
     ipam:
       driver: default
       config:
-        - subnet: 192.168.0.0/16  
+        - subnet: 192.168.0.0/16      
     external: true
       
