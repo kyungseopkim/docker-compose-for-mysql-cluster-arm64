@@ -8,8 +8,8 @@ services:
     ports:
       - "1186:1186"
     networks:
-      - cluster
-
+      cluster:
+        ipv4_address: 192.168.0.2
 
   ndb1:
     image: jerrylucid/mysql-cluster:arm64
@@ -21,7 +21,9 @@ services:
     depends_on:
       - mgmd
     networks:
-      - cluster
+      cluster:
+        ipv4_address: 192.168.0.3
+
   ndb2:
     image: jerrylucid/mysql-cluster:arm64
     command: ["ndbd"]
@@ -32,7 +34,9 @@ services:
     depends_on:
       - mgmd
     networks:
-      - cluster
+      cluster:
+        ipv4_address: 192.168.0.4
+
   mysqld:
     image: jerrylucid/mysql-cluster:arm64
     command: ["mysqld"]
@@ -50,17 +54,12 @@ services:
       - ndb1
       - ndb2
     networks:
-      - cluster
+      cluster:
+        ipv4_address: 192.168.0.10
 
 networks:
   cluster:
     ipam:
       config:
         - subnet: 192.168.0.0/16
-          aux_addresses:
-            mgmd: 192.0.0.2
-            ndb1: 192.0.0.3
-            ndb2: 192.0.0.4
-            mysqld: 192.0.0.10
-
     external: true
