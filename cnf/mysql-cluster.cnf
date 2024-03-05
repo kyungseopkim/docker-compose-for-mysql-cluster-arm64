@@ -4,24 +4,24 @@ DataMemory=80M
 
 [ndb_mgmd]
 NodeId=1
-hostname=mgmd
+hostname=192.168.0.2
 datadir=/var/lib/mysql
 
 [ndbd]
 NodeId=2
-hostname=ndb1
+hostname=192.168.0.3
 datadir=/var/lib/mysql
 
 [ndbd]
 NodeId=3
-hostname=ndb2
+hostname=192.168.0.4
 datadir=/var/lib/mysql
 
 [mysqld]
 NodeId=4
-hostname=sql1
+hostname=192.168.0.10
 
 [mysqld]
 NodeId=5
-hostname=sql2
+hostname=192.168.0.11
 
