@@ -5,7 +5,7 @@ LABEL os="ubuntu"
 LABEL app="mysql-cluster"
 
 RUN groupadd -r mysql && useradd -r -g mysql mysql 
-RUN apt update && apt install -y xz-utils libaio1 libnuma-dev pwgen 
+RUN apt update && apt install -y xz-utils libaio1 libnuma-dev pwgen libmecab2
 WORKDIR /opt
 ADD ./mysql-cluster-8.3.0-linux-glibc2.28-aarch64.tar.xz .
 RUN mv mysql-cluster-8.3.0-linux-glibc2.28-aarch64 mysql-cluster
