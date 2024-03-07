@@ -1,5 +1,5 @@
 FROM arm64v8/ubuntu:20.04
-LABEL maintainer="jerrykim@lucidmotors.com"
+LABEL maintainer="kyungseop.kim@gmail.com"
 LABEL platform="arm64v8"
 LABEL os="ubuntu"
 LABEL app="mysql-cluster"
